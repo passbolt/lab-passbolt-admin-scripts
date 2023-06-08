@@ -1,5 +1,15 @@
 #! /bin/bash
 
+if ! command -v mysqldump  &> /dev/null
+then
+    echo "+----------------------------------------------------------------------+"
+    echo "|               mysqldump is required to run this script               |"
+    echo "| Try installing either mysql-server or mariadb-server to correct this |"
+    echo "+----------------------------------------------------------------------+"
+    exit
+fi
+
+
 config_file="/etc/passbolt/passbolt.php"
 
 # Set this to the location you'd like backups placed, be sure to leave off the trailing /
@@ -46,6 +56,8 @@ then
   cp /etc/passbolt/gpg/serverkey_private.asc $backup_dir_date/.
   echo "Copying /etc/passbolt/gpg/serverkey.asc to $backup_dir_date"
   cp /etc/passbolt/gpg/serverkey.asc $backup_dir_date/.
+  echo "Copying /etc/passbolt/passbolt.php to $backup_dir_date"
+  cp /etc/passbolt/passbolt.php $backup_dir_date/.
   echo "Creating archive of $backup_dir_date"
   tar -czvf $backup_dir_date.tar.gz -C $backup_dir_date .
   echo "Cleaning up $backup_dir"
