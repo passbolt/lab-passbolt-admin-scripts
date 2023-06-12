@@ -18,15 +18,6 @@ backup_dir_date=$backup_dir/backup-$(date +"%Y-%m-%d--%H-%M-%S")
 backup_file=$backup_dir/backup-$(date +"%Y-%m-%d--%H-%M-%S").tar.gz
 
 
-if [ -z ${webserver_user} ]
-then
-    echo "+------------------------------------------------------------------------------------------+"
-    echo "|            You don't have the webserver_user set in the backup.sh file                   |"
-    echo "|                  Please correct this and then re-run this script                         |"
-    echo "+------------------------------------------------------------------------------------------+"
-    exit
-fi
-
 if [ -f /.dockerenv ]
 then
   echo "+------------------------------------------------------------------------------------------+"
@@ -41,6 +32,14 @@ then
   echo "+------------------------------------------------------------------------------------------+"
   cp /etc/environment $backup_dir_date/.
 else
+  if [ -z ${webserver_user} ]
+  then
+      echo "+------------------------------------------------------------------------------------------+"
+      echo "|            You don't have the webserver_user set in the backup.sh file                   |"
+      echo "|                  Please correct this and then re-run this script                         |"
+      echo "+------------------------------------------------------------------------------------------+"
+      exit
+  fi
   echo "+------------------------------------------------------------------------------------------+"
   echo "Docker not detected"
   echo "+------------------------------------------------------------------------------------------+"
