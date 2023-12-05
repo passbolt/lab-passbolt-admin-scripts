@@ -61,6 +61,7 @@ cp /etc/passbolt/gpg/serverkey.asc $backup_dir_date/.
 echo "Creating archive of $backup_dir_date"
 echo "+------------------------------------------------------------------------------------------+"
 tar -czvf $backup_dir_date.tar.gz -C $backup_dir_date .
+chmod 0600 $backup_dir_date.tar.gz
 echo "+------------------------------------------------------------------------------------------+"
 echo "Cleaning up $backup_dir"
 echo "+------------------------------------------------------------------------------------------+"
