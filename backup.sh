@@ -9,7 +9,7 @@ then
     echo "|                         mysqldump is required to run this script                         |"
     echo "|           Try installing either mysql-server or mariadb-server to correct this           |"
     echo "+------------------------------------------------------------------------------------------+"
-    exit
+    exit 1
 fi
 # Set this to the location you'd like backups placed, be sure to leave off the trailing /
 backup_dir="/tmp"
@@ -38,7 +38,7 @@ else
       echo "|            You don't have the webserver_user set in the backup.sh file                   |"
       echo "|                  Please correct this and then re-run this script                         |"
       echo "+------------------------------------------------------------------------------------------+"
-      exit
+      exit 1
   fi
   echo "+------------------------------------------------------------------------------------------+"
   echo "Docker not detected"
