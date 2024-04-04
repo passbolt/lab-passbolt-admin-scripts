@@ -15,7 +15,7 @@ fi
 backup_dir="/tmp"
 # If you want to change how the date is displayed edit this line
 backup_dir_date=$backup_dir/backup-$(date +"%Y-%m-%d--%H-%M-%S")
-backup_file=$backup_dir/backup-$(date +"%Y-%m-%d--%H-%M-%S").tar.gz
+export backup_file=$backup_dir/backup-$(date +"%Y-%m-%d--%H-%M-%S").tar.gz
 
 
 if [ -f /.dockerenv ]
