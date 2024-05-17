@@ -26,7 +26,7 @@ then
   su -s /bin/bash -c "mkdir $backup_dir_date" www-data 
   echo "Taking database backup and storing in $backup_dir_date"
 
-  su -s /bin/bash -c "./bin/cake passbolt mysql_export --dir $backup_dir_date" www-data
+  su -s /bin/bash -c "./bin/cake passbolt sql_export --dir $backup_dir_date" www-data
   echo "+------------------------------------------------------------------------------------------+"
   echo "Copying /etc/environment to $backup_dir_date"
   echo "+------------------------------------------------------------------------------------------+"
@@ -46,7 +46,7 @@ else
   su -s /bin/bash -c "mkdir $backup_dir_date" $webserver_user
   echo "Taking database backup and storing in $backup_dir_date"
   echo "+------------------------------------------------------------------------------------------+"
-  su -s /bin/bash -c "/usr/share/php/passbolt/bin/cake passbolt mysql_export --dir $backup_dir_date" $webserver_user
+  su -s /bin/bash -c "/usr/share/php/passbolt/bin/cake passbolt sql_export --dir $backup_dir_date" $webserver_user
   echo "+------------------------------------------------------------------------------------------+"
   echo "Copying /etc/passbolt/passbolt.php to $backup_dir_date"
   echo "+------------------------------------------------------------------------------------------+"
