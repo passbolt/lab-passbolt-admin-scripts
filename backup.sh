@@ -9,13 +9,13 @@ then
     echo "|                         mysqldump is required to run this script                         |"
     echo "|           Try installing either mysql-server or mariadb-server to correct this           |"
     echo "+------------------------------------------------------------------------------------------+"
-    exit
+    exit 1
 fi
 # Set this to the location you'd like backups placed, be sure to leave off the trailing /
 backup_dir="/tmp"
 # If you want to change how the date is displayed edit this line
 backup_dir_date=$backup_dir/backup-$(date +"%Y-%m-%d--%H-%M-%S")
-backup_file=$backup_dir/backup-$(date +"%Y-%m-%d--%H-%M-%S").tar.gz
+export backup_file=$backup_dir/backup-$(date +"%Y-%m-%d--%H-%M-%S").tar.gz
 
 
 if [ -f /.dockerenv ]
@@ -26,7 +26,7 @@ then
   su -s /bin/bash -c "mkdir $backup_dir_date" www-data 
   echo "Taking database backup and storing in $backup_dir_date"
 
-  su -s /bin/bash -c "./bin/cake passbolt mysql_export --dir $backup_dir_date" www-data
+  su -s /bin/bash -c "./bin/cake passbolt sql_export --dir $backup_dir_date" www-data
   echo "+------------------------------------------------------------------------------------------+"
   echo "Copying /etc/environment to $backup_dir_date"
   echo "+------------------------------------------------------------------------------------------+"
@@ -38,7 +38,7 @@ else
       echo "|            You don't have the webserver_user set in the backup.sh file                   |"
       echo "|                  Please correct this and then re-run this script                         |"
       echo "+------------------------------------------------------------------------------------------+"
-      exit
+      exit 1
   fi
   echo "+------------------------------------------------------------------------------------------+"
   echo "Docker not detected"
@@ -46,7 +46,7 @@ else
   su -s /bin/bash -c "mkdir $backup_dir_date" $webserver_user
   echo "Taking database backup and storing in $backup_dir_date"
   echo "+------------------------------------------------------------------------------------------+"
-  su -s /bin/bash -c "/usr/share/php/passbolt/bin/cake passbolt mysql_export --dir $backup_dir_date" $webserver_user
+  su -s /bin/bash -c "/usr/share/php/passbolt/bin/cake passbolt sql_export --dir $backup_dir_date" $webserver_user
   echo "+------------------------------------------------------------------------------------------+"
   echo "Copying /etc/passbolt/passbolt.php to $backup_dir_date"
   echo "+------------------------------------------------------------------------------------------+"
@@ -61,6 +61,7 @@ cp /etc/passbolt/gpg/serverkey.asc $backup_dir_date/.
 echo "Creating archive of $backup_dir_date"
 echo "+------------------------------------------------------------------------------------------+"
 tar -czvf $backup_dir_date.tar.gz -C $backup_dir_date .
+chmod 0600 $backup_dir_date.tar.gz
 echo "+------------------------------------------------------------------------------------------+"
 echo "Cleaning up $backup_dir"
 echo "+------------------------------------------------------------------------------------------+"
